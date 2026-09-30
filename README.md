@@ -5,8 +5,9 @@
 
 **A VS Code panel for the [VETT](https://github.com/msdickinson/vett) agent loop and agent teams, on local or hosted models.**
 
-> **State:** VETT Chat works, but it hasn't had much real use yet and has
-> known bugs and issues. VETT itself is the solid part; VETT Chat is early.
+> **State:** VETT Chat is in regular use, but it's still being put through
+> its paces, so expect some rough edges (see Known issues below). VETT itself
+> is the more mature part.
 
 Each chat runs `vett chat --stdio` as a local subprocess in your workspace
 and renders what the agent does: messages, tool calls, and, for team
