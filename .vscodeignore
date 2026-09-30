@@ -1,0 +1,14 @@
+src/**
+webview/**
+tests/**
+integration/**
+node_modules/**
+*.ts
+*.tsx
+tsconfig*.json
+esbuild.config.mjs
+.gitignore
+.github/**
+**/*.map
+package-lock.json
+*.vsix

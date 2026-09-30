@@ -1,0 +1,324 @@
+{
+  "name": "vett-chat",
+  "displayName": "Vett Chat",
+  "description": "Interactive AI coding assistant powered by Vett",
+  "version": "0.4.1",
+  "publisher": "dickinsonbros",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "AI",
+    "Chat"
+  ],
+  "galleryBanner": {
+    "color": "#1f1f2e",
+    "theme": "dark"
+  },
+  "keywords": [
+    "ai",
+    "chat",
+    "agent",
+    "vett",
+    "coding-assistant"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vett-chat",
+          "title": "Vett Chat",
+          "icon": "$(comment-discussion)"
+        }
+      ]
+    },
+    "views": {
+      "vett-chat": [
+        {
+          "type": "webview",
+          "id": "vett-chat.chatView",
+          "name": "Sessions"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "vett-chat.newSession",
+        "title": "Vett Chat: New Session",
+        "icon": "$(add)"
+      },
+      {
+        "command": "vett-chat.newSessionCustom",
+        "title": "Vett Chat: New Chat (Custom Team)",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "vett-chat.stopAgent",
+        "title": "Vett Chat: Stop Agent",
+        "icon": "$(stop-circle)"
+      },
+      {
+        "command": "vett-chat.showWelcome",
+        "title": "Vett Chat: Show Welcome",
+        "icon": "$(info)"
+      },
+      {
+        "command": "vett-chat.pickProfile",
+        "title": "Vett Chat: Pick Profile",
+        "icon": "$(person)"
+      },
+      {
+        "command": "vett-chat.openInEditor",
+        "title": "Vett Chat: New Chat (Editor Tab)",
+        "icon": "$(empty-window)"
+      },
+      {
+        "command": "vett-chat.resumeSession",
+        "title": "Vett Chat: Resume Past Chat (New Tab)…",
+        "icon": "$(history)"
+      },
+      {
+        "command": "vett-chat.resumeInSidebar",
+        "title": "Vett Chat: Resume Past Chat (Sidebar)…",
+        "icon": "$(debug-restart)"
+      },
+      {
+        "command": "vett-chat.closeAllPanels",
+        "title": "Vett Chat: Close All Tabs",
+        "icon": "$(close-all)"
+      },
+      {
+        "command": "vett-chat.detectLocalModels",
+        "title": "Vett Chat: Auto-detect Local Models…",
+        "icon": "$(search)"
+      },
+      {
+        "command": "vett-chat.setupCloudProvider",
+        "title": "Vett Chat: Connect to Cloud Provider (OpenAI / Anthropic / Google)…",
+        "icon": "$(cloud)"
+      },
+      {
+        "command": "vett-chat.runOnboardingWizard",
+        "title": "Vett Chat: Set Up a Model…",
+        "icon": "$(rocket)"
+      },
+      {
+        "command": "vett-chat.inlineEdit",
+        "title": "Vett Chat: Edit Selection (Inline)…",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "vett-chat.editSymbol",
+        "title": "Vett Chat: Edit Symbol",
+        "icon": "$(sparkle)",
+        "enablement": "false"
+      },
+      {
+        "command": "vett-chat.fixWithVett",
+        "title": "Vett Chat: Fix with Vett",
+        "icon": "$(sparkle)",
+        "enablement": "false"
+      },
+      {
+        "command": "vett-chat.documentSymbol",
+        "title": "Vett Chat: Generate Doc Comment",
+        "icon": "$(comment)",
+        "enablement": "false"
+      },
+      {
+        "command": "vett-chat.explainSymbol",
+        "title": "Vett Chat: Explain Symbol",
+        "icon": "$(info)",
+        "enablement": "false"
+      },
+      {
+        "command": "vett-chat.openInEditorWithPrefill",
+        "title": "Vett Chat: Open New Chat With Prefilled Input",
+        "icon": "$(empty-window)",
+        "enablement": "false"
+      },
+      {
+        "command": "vett-chat.initProjectRules",
+        "title": "Vett Chat: Initialize Project Rules (VETT.md)",
+        "icon": "$(book)"
+      },
+      {
+        "command": "vett-chat.resetProjectRulesNudge",
+        "title": "Vett Chat: Reset \"Add Project Rules\" Nudge"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "vett-chat.inlineEdit",
+        "key": "ctrl+i",
+        "mac": "cmd+i",
+        "when": "editorTextFocus && !editorReadonly"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "vett-chat.newSessionCustom",
+          "when": "view == vett-chat.chatView",
+          "group": "navigation@1"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "vett-chat.inlineEdit",
+          "group": "1_modification@99",
+          "when": "editorTextFocus && !editorReadonly"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Vett Chat",
+      "properties": {
+        "vett-chat.vettPath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "Absolute path to the `vett` binary. Leave empty to auto-detect in `~/.dotnet/tools/`, `~/go/bin/`, then `$PATH`. Set this only if `vett` lives somewhere unusual (custom build, mounted remote, etc.).\n\n**Don't have vett yet?** See [VETT](https://github.com/msdickinson/vett#install): download `VettBench.*.nupkg` from its Releases, then `dotnet tool install --global --add-source <folder-with-the-nupkg> VettBench`."
+        },
+        "vett-chat.profile": {
+          "type": "string",
+          "default": "coding",
+          "markdownDescription": "Name of the VETT profile to use for chat sessions. The profile is the **single source of truth** for endpoint, model, API key, system prompt, tools, and iteration budget. To change any of those, edit the profile YAML — not the extension settings.\n\nProfile lookup order:\n1. `<workspace>/profiles/<name>.yaml`\n2. `~/.vett/profiles/<name>.yaml` (per-user override)\n3. Bundled defaults shipped with vett\n\nThe default `coding` profile is chat-tuned (no auto-finish, conversational system prompt). Benchmark profiles like `openhands` will auto-terminate sessions and are not recommended for chat. Run `vett profiles` to see what's installed; use `Vett Chat: Pick Profile` from the Command Palette for an interactive picker."
+        },
+        "vett-chat.chatSessionLogDir": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Directory for JSONL chat session logs. Empty (default) writes to `~/.vett/chat-sessions/`. Override if your home directory is a slow network share or you want logs on a separate drive.\n\nLogs are best-effort — write failures never break the chat path."
+        },
+        "vett-chat.toolCardDensity": {
+          "type": "string",
+          "default": "default",
+          "enum": [
+            "compact",
+            "default",
+            "verbose"
+          ],
+          "enumDescriptions": [
+            "One line per tool call — status dot, tool name, one-line description, duration. Click to expand into the default view.",
+            "Header card with tool badge, human-readable description, and IN/OUT preview blocks. Click to expand the full data.",
+            "Header card plus full IN args and full OUT result inline at all times. Best for debugging."
+          ],
+          "markdownDescription": "How much detail to show per tool call in the Live chat view.\n\n- `compact` — one line: `● Bash · List home dir ✓ 120ms`. Best for power users who scan dense logs.\n- `default` — header card with truncated IN/OUT preview, click to expand. Good middle ground.\n- `verbose` — full IN args and full OUT result inline. Best when actively debugging an agent run.\n\nThe Logs / Raw view modes are unaffected — this only changes the Live view's per-card rendering."
+        },
+        "vett-chat.dispatchViewStyle": {
+          "type": "string",
+          "default": "log",
+          "enum": [
+            "log",
+            "structured"
+          ],
+          "enumDescriptions": [
+            "Compact event log: one line per event (timestamp · glyph · body). Dense, matches the Logs view's vocabulary, good for scanning a long sub-agent run.",
+            "Structured cards: sub-agent tool calls render with the same IN/OUT preview cards as the main chat; assistant text shows as message bubbles. Iteration / llm_request / llm_response boilerplate hidden. Better for following one task at a time."
+          ],
+          "markdownDescription": "How sub-agent dispatch cards render their event list when expanded.\n\n- `log` (default): one line per event, like the Logs / Raw views. Compact and scannable.\n- `structured`: sub-agent events render with the same `ToolCallCard` (IN/OUT preview, click-to-expand) the main chat uses, plus assistant-text message bubbles. Iteration markers + llm-request/response chatter are hidden.\n\nIndependent of `vett-chat.toolCardDensity` — that controls main-chat tool cards; this controls sub-agent dispatch cards."
+        },
+        "vett-chat.contextWindowTokens": {
+          "type": "number",
+          "default": 131072,
+          "minimum": 1024,
+          "markdownDescription": "Total context window size, in tokens, for the active LLM. Drives the token-usage gauge in the status bar — `total / max` and the fill bar render against this number.\n\n**Default 131072 (128k)** matches many current local models. Lower it to match smaller models (e.g. 8192 for a model with an 8k context) so the gauge fills meaningfully.\n\nThis is the model's hard ceiling, not where vett's middleware compacts the conversation. Compaction (via `MilestoneCheckpoint` / `LlmSummarizingCondenser`) runs earlier — much earlier than 128k — and is configured per-profile in YAML, independent of this setting."
+        },
+        "vett-chat.useWorktree": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Run each chat panel in an isolated git worktree at `~/.vett/worktrees/<workspace-hash>-<panel-id>/` instead of the user's working tree directly.\n\n**Default: false.** Agent edits land directly in your workspace; you review them with your normal git workflow. Set to `true` when you want a hard isolation gate: vett edits the worktree only, your source tree stays untouched until you click **Apply changes to main tree** in the worktree-chip dropdown.\n\nWhen the workspace is a git repo, isolation uses `git worktree add` on a hidden branch named `vett/wt-<panel-id>` — fast and cheap. Without `.git`, vett falls back to a recursive copy of the workspace, which can be very slow on large monorepos. If you turn this on against a non-git monorepo, expect a long first-message delay.\n\nPer-panel and sticky for the panel's lifetime — toggling this setting affects new chat panels only. Existing panels keep their original mode."
+        },
+        "vett-chat.smartActionsEnabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Enable Vett's editor-surface AI buttons:\n\n- **CodeLens** — `✨ Edit with Vett` floats above every function, method, class, interface, and constructor in your source files. Click it to open the inline-edit input box pre-targeted at that symbol.\n- **QuickFix** — `Fix with Vett: <diagnostic>` appears in the lightbulb / Ctrl+. menu on every error and warning. Picking it runs an inline edit with the diagnostic message as the prefilled instruction.\n\nBoth surfaces ride on the same `vett edit` engine as `Cmd+I` / `Ctrl+I`, so the Diff → Apply / Cancel / Iterate flow is identical.\n\nDisable to remove the visual noise without touching the inline-edit hotkey. Toggling refreshes the lens view live — no window reload required."
+        },
+        "vett-chat.whisperEndpoint": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "URL of a Whisper-compatible HTTP endpoint for voice input. Used by the 🎤 Voice button in the chat input bar.\n\n**Expected protocol** — OpenAI-style `POST /v1/audio/transcriptions` accepting multipart/form-data with `file` + `model` + `response_format=json` fields. Returns `{ text: \"...\" }`. Compatible with whisper.cpp's HTTP server, Faster-Whisper-Server, and the official OpenAI API.\n\n**Examples:**\n- Self-hosted Whisper: `http://localhost:9000/v1/audio/transcriptions`\n- OpenAI API: `https://api.openai.com/v1/audio/transcriptions` (also set `vett-chat.whisperApiKey`, or export `OPENAI_API_KEY` in the shell that launches VS Code).\n\nLeave empty to disable voice input."
+        },
+        "vett-chat.whisperModel": {
+          "type": "string",
+          "default": "whisper-1",
+          "markdownDescription": "Model name passed in the Whisper request body. Most local servers ignore this field; the OpenAI API requires `whisper-1`. Faster-Whisper-Server uses tags like `Systran/faster-distil-whisper-large-v3`. Ignored when `vett-chat.whisperApiStyle` is `simple`."
+        },
+        "vett-chat.voiceMode": {
+          "type": "string",
+          "default": "manual",
+          "enum": [
+            "manual",
+            "streaming"
+          ],
+          "enumDescriptions": [
+            "Click 🎤 to start, click again to stop. Full audio is uploaded once on stop, transcript drops into the chat input. Works against any /transcribe endpoint.",
+            "Live captioning. Audio streams to the server over a WebSocket as you speak; partial transcripts append to the input field every ~1s. Requires the streaming-capable /ws/transcribe endpoint."
+          ],
+          "markdownDescription": "How the 🎤 voice button transcribes.\n\n- `manual` (default): record then upload. One round-trip on stop, full transcript appears at once.\n- `streaming`: WebSocket to `/ws/transcribe`, audio streams as you speak, partial transcripts live-update the chat input. Lower latency but requires a streaming server that exposes `/ws/transcribe`.\n\nThe streaming mode derives its WebSocket URL from `vett-chat.whisperEndpoint`: it strips a trailing `/transcribe` (or `/v1/audio/transcriptions`) and appends `/ws/transcribe`, then swaps `http` for `ws` (`https` for `wss`)."
+        },
+        "vett-chat.whisperApiStyle": {
+          "type": "string",
+          "default": "openai",
+          "enum": [
+            "openai",
+            "simple"
+          ],
+          "enumDescriptions": [
+            "OpenAI-compatible — POST multipart with `file` + `model` + `response_format=json` to e.g. `/v1/audio/transcriptions`. Works with whisper.cpp's HTTP server, Faster-Whisper-Server, and OpenAI's hosted API.",
+            "Simple shape — POST multipart with a single `audio` form field to e.g. `/transcribe`. Matches the lightweight FastAPI Whisper wrappers (one binary file in, `{text: \"...\"}` out)."
+          ],
+          "markdownDescription": "Wire format vett-chat uses to talk to your STT server.\n\n- `openai` (default): Multipart fields `file` + `model` + `response_format=json`. Endpoint typically ends with `/v1/audio/transcriptions`.\n- `simple`: Single multipart field `audio`. Endpoint typically ends with `/transcribe`. Matches the lightweight FastAPI Whisper wrappers some self-hosted STT servers expose.\n\nThe response shape (`{text: \"...\"}`) is the same for both."
+        },
+        "vett-chat.whisperApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Bearer-auth API key for the Whisper endpoint. Local servers (whisper.cpp, faster-whisper) typically don't need this — leave empty.\n\nFor OpenAI's hosted Whisper (`https://api.openai.com/v1/audio/transcriptions`) this key authenticates the request. If empty, voice input falls back to the `OPENAI_API_KEY` environment variable. Stored in your settings.json as plain text — only set this if you're comfortable with that trade-off."
+        },
+        "vett-chat.ffmpegPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Absolute path to the `ffmpeg` binary, used for mic capture during voice input. Leave empty to use whatever's on `$PATH`. Set this only if `ffmpeg` isn't on your PATH or you want to pin a specific build."
+        },
+        "vett-chat.voiceInputDevice": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Override the input device name passed to ffmpeg.\n\n- **Windows (DirectShow):** the audio device name shown by `ffmpeg -list_devices true -f dshow -i dummy`. Default: `default`.\n- **macOS (AVFoundation):** index like `:0`, `:1`, `:2` from `ffmpeg -f avfoundation -list_devices true -i \"\"`. Default: `:0`.\n- **Linux (PulseAudio):** source name from `pactl list short sources`. Default: `default`.\n\nLeave empty to use the platform default."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "npm run typecheck && node esbuild.config.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.webview.json && tsc --noEmit -p tsconfig.json",
+    "build:nocheck": "node esbuild.config.mjs",
+    "watch": "node esbuild.config.mjs --watch",
+    "test": "vitest run",
+    "package": "vsce package",
+    "test:integration": "node integration/run.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.9.2",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.3.0",
+    "vitest": "^2.0.0"
+  },
+  "dependencies": {
+    "@preact/signals": "^1.3.0",
+    "@types/ws": "^8.18.1",
+    "preact": "^10.19.0",
+    "ws": "^8.20.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/msdickinson/vett-chat"
+  },
+  "bugs": {
+    "url": "https://github.com/msdickinson/vett-chat/issues"
+  },
+  "license": "MIT"
+}

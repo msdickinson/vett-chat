@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="22" fill="#1f1f2e"/>
+  <!-- chat bubble -->
+  <path d="M28 36 h60 a10 10 0 0 1 10 10 v32 a10 10 0 0 1 -10 10 h-32 l-16 14 v-14 h-12 a10 10 0 0 1 -10 -10 v-32 a10 10 0 0 1 10 -10 z"
+        fill="#4f8ff7"/>
+  <!-- VETT mark -->
+  <text x="64" y="72" text-anchor="middle" fill="#fff"
+        font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="28">V</text>
+</svg>

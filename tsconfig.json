@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2022",
+    "outDir": "dist",
+    "lib": ["ES2022"],
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true
+  },
+  // tests/ is included so `npm run typecheck` actually spans the test files.
+  // It did not until 2026-08-26, and the gap was not theoretical: adding a
+  // required field to CloudProfileSpec left 5 test files unable to construct a
+  // valid spec while typecheck stayed GREEN -- the failure only surfaced when
+  // vitest ran. Both tsc invocations in the `typecheck` script pass --noEmit
+  // and the bundle is produced by esbuild.config.mjs, so widening this list
+  // changes what is CHECKED and nothing about what is BUILT.
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", "dist", "webview"]
+}

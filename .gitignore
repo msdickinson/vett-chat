@@ -1,0 +1,16 @@
+node_modules/
+dist/
+*.vsix
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.vs/
+.idea/
+
+# Local secrets
+.env
+.env.*
+!.env.example
+integration/result.json
