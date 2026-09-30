@@ -106,7 +106,7 @@ needs a local VS Code install, so CI does not run it; see
 
 ## Known issues / state
 
-- It has had little real use. Expect rough edges beyond this list.
+- It's still being put through its paces. Expect rough edges beyond this list.
 - The `vett-chat.useWorktree` setting text and the Settings drawer still say
   a workspace without git falls back to a recursive copy. That fallback was
   removed: without git, the chat shows a warning and runs directly in the
